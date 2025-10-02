@@ -1,0 +1,6 @@
+{
+  "winner": "random_forest_tuned_fast",
+  "balanced_accuracy": 0.8972334860021198,
+  "macro_f1": 0.8934256577804808,
+  "macro_auc_ovr": 0.9825061605261082
+}
