@@ -4,7 +4,7 @@
 - **Team ID:** TM-202
 - **Team Members:**
   - Vivek Shrey (Team Leader)
-  - Ravishankar Navisshna
+  - Ravisankar Navisshna
   - Beh Seng Kiat
 
 ---
