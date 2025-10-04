@@ -1,6 +1,6 @@
-# 🩺 Executive Summary — CTG Datathon 2025
 
-## 📍 Problem Statement
+
+## Problem Statement
 The goal of this project is to predict the **fetal state (`NSP`)** based on Cardiotocographic (CTG) measurements — a critical task in prenatal care.  
 The dataset classifies cases into three categories:
 
@@ -12,10 +12,10 @@ Reliable prediction helps clinicians **prioritize care**, **reduce false negativ
 
 ---
 
-## 🧠 Our Approach
+## Our Approach
 
 1. **Data Cleaning & Preprocessing**  
-   - Extracted and cleaned ~2100 samples from the raw CTG Excel sheet.  
+   - Extracted and cleaned 2000+ samples from the raw CTG Excel sheet.  
    - Fixed headers, removed metadata rows, and dropped the derived `CLASS` column to avoid leakage.  
    - Imputed missing values and standardized the feature set.
 
@@ -37,7 +37,7 @@ Reliable prediction helps clinicians **prioritize care**, **reduce false negativ
 
 ---
 
-## 📊 Final Results
+## Final Results
 
 | Metric | Value |
 |--------|-------|
@@ -53,7 +53,7 @@ Reliable prediction helps clinicians **prioritize care**, **reduce false negativ
 
 ---
 
-## 📈 Key Insights
+## Key Insights
 
 - **Top Predictors:** Baseline FHR (`LB`), variability metrics (`ASTV`, `ALTV`, `MLTV`), histogram stats (`Width`, `Variance`), and diagnostic flags (`A–SUSP`).  
 - **Clinical Implication:** The model reliably distinguishes between safe and risky fetal conditions, assisting doctors in triage and monitoring.  
@@ -61,7 +61,7 @@ Reliable prediction helps clinicians **prioritize care**, **reduce false negativ
 
 ---
 
-## 🔬 Limitations & Future Work
+## Limitations & Future Work
 
 - The model uses **derived features only** — deeper improvements could come from time-series modeling (e.g., 1D CNN, LSTM) on raw signals.  
 - **Threshold tuning** can further improve recall for the rare `Pathologic` class in a clinical deployment scenario.  
@@ -69,6 +69,6 @@ Reliable prediction helps clinicians **prioritize care**, **reduce false negativ
 
 ---
 
-## ✅ Conclusion
+## Conclusion
 Our solution demonstrates a **robust, explainable, and reproducible machine learning pipeline** that predicts fetal health state from CTG features with high accuracy and strong generalization. With further optimization and interpretability work, this model can be a practical decision-support tool in prenatal care, helping doctors **catch high-risk cases earlier** and **improve patient outcomes.**
 

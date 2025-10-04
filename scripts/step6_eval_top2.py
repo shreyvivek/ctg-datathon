@@ -117,7 +117,7 @@ for name, path in FINALISTS:
     if hasattr(model, "predict_proba"):
         score = model.predict_proba(X_test)
     else:
-        # Pipeline? grab last step if needed
+        d
         last = getattr(model, "steps", [("", model)])[-1][1]
         if hasattr(last, "predict_proba"):
             score = last.predict_proba(model[:-1].transform(X_test)) if hasattr(model, "__getitem__") else last.predict_proba(X_test)
@@ -142,7 +142,6 @@ for name, path in FINALISTS:
 
     rows.append({"model": name, "balanced_accuracy": bal_acc, "macro_f1": macro_f1, "macro_auc_ovr": macro_auc})
 
-# summary
 if rows:
     lb = pd.DataFrame(rows).sort_values("balanced_accuracy", ascending=False)
     lb.to_csv(REP / "step6_top2_leaderboard.csv", index=False)

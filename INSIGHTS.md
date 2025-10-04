@@ -27,5 +27,5 @@
 - **Balanced metrics** (balanced accuracy + macro-F1) due to class imbalance.
 
 ## Limitations & next steps
-- Temporal dynamics are summarized into features; a sequence model (e.g., 1D CNN/LSTM) could capture more signal.
+- Temporal dynamics are summarized into features; a sequence model could definitely capture more signal.
 - Threshold tuning for clinic-specific trade-offs (recall for Pathologic vs. precision) could be explored.

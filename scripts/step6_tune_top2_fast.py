@@ -10,13 +10,11 @@ import joblib
 import warnings
 warnings.filterwarnings("ignore")
 
-# Optional XGBoost
 try:
     from xgboost import XGBClassifier
 except Exception:
     XGBClassifier = None
 
-# -------- Paths / Config --------
 PROC = Path("data/processed/ctg_final.csv")
 MODELS = Path("models"); MODELS.mkdir(parents=True, exist_ok=True)
 REPORTS = Path("reports"); REPORTS.mkdir(parents=True, exist_ok=True)
@@ -30,7 +28,6 @@ FEATURES = [
     "Tendency","A","B","C","D","E","AD","DE","LD","FS","SUSP"
 ]
 
-# -------- Load / Prepare --------
 df = pd.read_csv(PROC)
 if "CLASS" in df.columns:
     df = df.drop(columns=["CLASS"])
@@ -55,7 +52,6 @@ scoring = "balanced_accuracy"
 
 results_rows = []
 
-# -------- Random Forest: randomized search (fast) --------
 rf = RandomForestClassifier(random_state=RAND, class_weight="balanced", n_jobs=-1)
 rf_space = {
     "n_estimators": [200, 400, 600],
@@ -83,14 +79,13 @@ results_rows.append({"model":"random_forest_tuned_fast",
                      "balanced_accuracy": rf_metrics["balanced_accuracy"],
                      "macro_f1": rf_metrics["macro_f1"]})
 
-# -------- XGBoost: randomized search (fast) --------
 if XGBClassifier is not None:
     xgb = XGBClassifier(
         objective="multi:softprob",
         num_class=len(np.unique(y)),
         n_jobs=-1,
         random_state=RAND,
-        tree_method="hist",         # faster on CPU
+        tree_method="hist",         
         eval_metric="mlogloss"
     )
     xgb_space = {
@@ -122,7 +117,6 @@ if XGBClassifier is not None:
 else:
     print("Skipping XGBoost fast tuning (xgboost not available).")
 
-# -------- Leaderboard --------
 if results_rows:
     lb = pd.DataFrame(results_rows).sort_values("balanced_accuracy", ascending=False)
     lb.to_csv(REPORTS / "step6_tuned_fast_leaderboard.csv", index=False)

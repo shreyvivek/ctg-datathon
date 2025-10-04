@@ -13,7 +13,6 @@ import joblib
 import warnings
 warnings.filterwarnings("ignore")
 
-# ---------------- Paths / Config ----------------
 PROC = Path("data/processed/ctg_final.csv")
 FIG  = Path("reports/figures"); FIG.mkdir(parents=True, exist_ok=True)
 REP  = Path("reports"); REP.mkdir(parents=True, exist_ok=True)
@@ -29,7 +28,7 @@ FEATURES = [
     "Tendency","A","B","C","D","E","AD","DE","LD","FS","SUSP"
 ]
 
-# Prefer tuned_fast models; fallback to tuned; fallback to base
+
 CANDIDATES = [
     ("random_forest_tuned_fast", MOD/"random_forest_tuned_fast.joblib"),
     ("xgboost_tuned_fast",       MOD/"xgboost_tuned_fast.joblib"),
@@ -39,7 +38,7 @@ CANDIDATES = [
     ("xgboost",                  MOD/"xgboost.joblib"),
 ]
 
-# -------------- helpers --------------
+
 def plot_cm(y_true, y_pred, labels, out_png, title, normalize=False):
     cm = confusion_matrix(y_true, y_pred, labels=labels, normalize=("true" if normalize else None))
     plt.figure(figsize=(5,4))
@@ -70,7 +69,7 @@ def plot_multiclass_roc(y_true_bin, y_score, class_labels, out_png, title):
     plt.savefig(out_png, dpi=300); plt.close()
     return float(np.mean(aucs))
 
-# -------------- load & split (same seed) --------------
+
 df = pd.read_csv(PROC)
 if "CLASS" in df.columns:
     df = df.drop(columns=["CLASS"])
@@ -93,7 +92,6 @@ X_train, X_test, y_train, y_test = train_test_split(
 y_test_lbl = le.inverse_transform(y_test)
 y_test_bin = label_binarize(y_test_lbl, classes=class_labels)
 
-# -------------- pick winner --------------
 scores = []
 loaded = []
 
@@ -114,13 +112,13 @@ scores_sorted = sorted(scores, key=lambda x: (x[1], x[2]), reverse=True)
 winner_name, winner_bal, winner_f1 = scores_sorted[0]
 winner_model = dict(loaded)[winner_name]
 
-# -------------- full eval for winner --------------
+
 y_pred = winner_model.predict(X_test)
 y_pred_lbl = le.inverse_transform(y_pred)
 
 # metrics
 macro_auc = None
-# scores for ROC
+
 score = None
 if hasattr(winner_model, "predict_proba"):
     score = winner_model.predict_proba(X_test)
@@ -152,7 +150,6 @@ plot_cm(y_test_lbl, y_pred_lbl, class_labels, FIG / f"cm_{winner_name}_FINAL_nor
 rep = classification_report(y_test, y_pred, digits=4, output_dict=True)
 pd.DataFrame(rep).T.to_csv(REP / f"{winner_name}_FINAL_per_class_metrics.csv")
 
-# -------------- feature importance if available --------------
 imp_path = None
 last_est = winner_model
 if hasattr(winner_model, "steps"):
@@ -172,7 +169,6 @@ if hasattr(last_est, "feature_importances_"):
     imp_path = FIG / f"feat_importance_{winner_name}_FINAL.png"
     plt.savefig(imp_path, dpi=300); plt.close()
 
-# -------------- save metrics json --------------
 final_metrics = {
     "winner": winner_name,
     "balanced_accuracy": float(balanced_accuracy_score(y_test, y_pred)),
@@ -182,7 +178,6 @@ final_metrics = {
 with open(REP / "FINAL_metrics.json", "w") as f:
     json.dump(final_metrics, f, indent=2)
 
-# -------------- optional predictions CSV --------------
 pred_df = pd.DataFrame({
     "index": X_test.index,
     "true_label": le.inverse_transform(y_test),
@@ -190,7 +185,7 @@ pred_df = pd.DataFrame({
 })
 pred_df.to_csv(REP / f"{winner_name}_FINAL_test_predictions.csv", index=False)
 
-# -------------- insights markdown --------------
+
 insights_lines = []
 insights_lines.append("# CTG Datathon — Final Model Summary\n")
 insights_lines.append(f"**Winner:** `{winner_name}`\n")
