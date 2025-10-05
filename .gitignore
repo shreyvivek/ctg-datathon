@@ -1,30 +1,9 @@
-# Virtual environments
 .venv/
-venv/
-
-# Python cache and compiled files
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Mac system files
-.DS_Store
-
-# Jupyter checkpoints
 .ipynb_checkpoints/
-
-# VSCode / IDE junk
+.DS_Store
 .vscode/
 .idea/
-
-# Logs / temp files
 *.log
 *.tmp
 
-# Model weights (if not needed)
-*.pkl
-*.joblib
-
-# CSV predictions if re-generated often
-predictions.csv
