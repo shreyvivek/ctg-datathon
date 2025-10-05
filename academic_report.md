@@ -23,7 +23,8 @@ Reliable prediction helps clinicians **prioritize care**, **reduce false negativ
    We selected clinically meaningful features such as:
    - **Baseline FHR & variability:** `LB`, `ASTV`, `ALTV`, `MLTV`  
    - **Histogram stats:** `Width`, `Min`, `Max`, `Variance`, `Mode`  
-   - **Diagnostic flags:** `A`, `B`, `C`, `D`, `E`, `AD`, `DE`, `LD`, `FS`, `SUSP`  
+   - **Diagnostic flags:** `A`, `B`, `C`, `D`, `E`, `AD`, `DE`, `LD`, `FS`, `SUSP`
+   - **Excluded** - `b`, `e`, etc, as they were captured by other parameters showing variability
 
 3. **Model Development & Evaluation**  
    - Built and compared **7 models**: Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, SVM, XGBoost, LightGBM.  
