@@ -7,6 +7,9 @@
   - Ravisankar Navisshna
   - Beh Seng Kiat
 
+**Video Link** - https://drive.google.com/file/d/1xMGDusd37iHcc6gSZolKCFoBI64wNRQF/view
+**1 Page Report** - See `academic_report.md`
+
 ---
 
 ## Project Overview
